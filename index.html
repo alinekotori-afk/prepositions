@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prepositions in English - Exercícios</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: #f4f7fb;
+    color: #1f2d3d;
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, #2563eb, #16a34a);
+    color: white;
+    text-align: center;
+    padding: 28px 16px;
+  }
+  header h1 { margin: 0 0 6px; font-size: 1.9rem; }
+  header p { margin: 0; opacity: .95; }
+  nav {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    padding: 14px; background: white; position: sticky; top: 0; z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  nav a {
+    text-decoration: none; color: #2563eb; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid #2563eb;
+  }
+  nav a:hover { background: #2563eb; color: white; }
+  main { max-width: 900px; margin: 0 auto; padding: 20px 16px 60px; }
+  section {
+    background: white; border-radius: 14px; padding: 22px;
+    margin-bottom: 28px; box-shadow: 0 3px 10px rgba(0,0,0,.06);
+  }
+  section h2 { margin-top: 0; }
+  .time h2 { color: #2563eb; }
+  .place h2 { color: #16a34a; }
+  .move h2 { color: #ea580c; }
+  .mc h2 { color: #7c3aed; }
+  .hint { color: #5b6b7c; font-size: .95rem; margin-bottom: 14px; }
+  .bank {
+    display: flex; flex-wrap: wrap; gap: 10px; min-height: 56px;
+    padding: 12px; background: #eef4ff; border: 2px dashed #9bb8f5;
+    border-radius: 12px; margin-bottom: 18px;
+  }
+  .place .bank { background: #ecfdf3; border-color: #86d6a6; }
+  .move .bank { background: #fff4ec; border-color: #f7b98a; }
+  .chip {
+    padding: 8px 14px; background: white; border: 2px solid #2563eb;
+    border-radius: 999px; font-weight: 700; cursor: grab; user-select: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,.08); transition: transform .1s;
+  }
+  .place .chip { border-color: #16a34a; }
+  .move .chip { border-color: #ea580c; }
+  .chip:active { cursor: grabbing; transform: scale(.97); }
+  .chip.selected { background: #fde68a; border-color: #d97706; }
+  .chip.correct { background: #bbf7d0; border-color: #15803d; }
+  .chip.wrong { background: #fecaca; border-color: #b91c1c; }
+  .item {
+    font-size: 1.1rem; padding: 10px 6px; border-bottom: 1px solid #edf1f6;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  }
+  .item:last-child { border-bottom: none; }
+  .num { font-weight: 700; color: #64748b; min-width: 28px; }
+  .drop {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 110px; min-height: 38px; padding: 4px 8px;
+    border: 2px dashed #94a3b8; border-radius: 10px; background: #f8fafc;
+    cursor: pointer;
+  }
+  .drop.over { background: #dbeafe; border-color: #2563eb; }
+  .drop .chip { border-width: 2px; padding: 4px 12px; font-size: .95rem; }
+  .drop.ok { border-color: #15803d; background: #dcfce7; }
+  .drop.bad { border-color: #b91c1c; background: #fee2e2; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; align-items: center; }
+  button {
+    font: inherit; font-weight: 700; border: none; border-radius: 10px;
+    padding: 10px 18px; cursor: pointer; color: white; background: #2563eb;
+  }
+  button.secondary { background: #64748b; }
+  button:hover { filter: brightness(1.08); }
+  .score { font-weight: 700; font-size: 1.05rem; margin-left: auto; }
+  .q { padding: 14px 0; border-bottom: 1px solid #edf1f6; }
+  .q:last-child { border-bottom: none; }
+  .q p { margin: 0 0 8px; font-size: 1.1rem; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    background: #f1f5f9; color: #1f2d3d; border: 2px solid #cbd5e1;
+    padding: 8px 14px; border-radius: 10px; font-weight: 600;
+  }
+  .opt:hover { background: #e2e8f0; filter: none; }
+  .opt.picked { background: #ede9fe; border-color: #7c3aed; }
+  .opt.correct { background: #bbf7d0; border-color: #15803d; }
+  .opt.wrong { background: #fecaca; border-color: #b91c1c; }
+  .feedback { margin-top: 6px; font-weight: 600; }
+  .feedback.ok { color: #15803d; }
+  .feedback.bad { color: #b91c1c; }
+  .total {
+    text-align: center; font-size: 1.2rem; font-weight: 700;
+    background: white; padding: 18px; border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.06);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Prepositions in English</h1>
+  <p>Exercícios de preposições de tempo, lugar e movimento</p>
+</header>
+
+<nav>
+  <a href="#time">Tempo</a>
+  <a href="#place">Lugar</a>
+  <a href="#move">Movimento</a>
+  <a href="#mc">Múltipla escolha</a>
+  <a href="#total">Pontuação</a>
+</nav>
+
+<main>
+
+  <!-- TIME -->
+  <section class="time" id="time" data-kind="dnd">
+    <h2>⏰ Prepositions of Time (Drag and Drop)</h2>
+    <p class="hint">Arraste a preposição correta para o espaço. No celular, toque em uma palavra e depois toque no espaço.</p>
+    <div class="bank"></div>
+    <div class="exercises"></div>
+    <div class="actions">
+      <button class="check">Verificar</button>
+      <button class="secondary reset">Reiniciar</button>
+      <span class="score"></span>
+    </div>
+  </section>
+
+  <!-- PLACE -->
+  <section class="place" id="place" data-kind="dnd">
+    <h2>📍 Prepositions of Place (Drag and Drop)</h2>
+    <p class="hint">Arraste a preposição de lugar correta para cada frase.</p>
+    <div class="bank"></div>
+    <div class="exercises"></div>
+    <div class="actions">
+      <button class="check">Verificar</button>
+      <button class="secondary reset">Reiniciar</button>
+      <span class="score"></span>
+    </div>
+  </section>
+
+  <!-- MOVEMENT -->
+  <section class="move" id="move" data-kind="dnd">
+    <h2>🏃 Prepositions of Movement (Drag and Drop)</h2>
+    <p class="hint">Arraste a preposição de movimento que completa a frase.</p>
+    <div class="bank"></div>
+    <div class="exercises"></div>
+    <div class="actions">
+      <button class="check">Verificar</button>
+      <button class="secondary reset">Reiniciar</button>
+      <span class="score"></span>
+    </div>
+  </section>
+
+  <!-- MULTIPLE CHOICE -->
+  <section class="mc" id="mc">
+    <h2>✅ Multiple Choice</h2>
+    <p class="hint">Escolha a opção que completa corretamente cada frase.</p>
+    <div id="mcList"></div>
+    <div class="actions">
+      <button id="mcCheck">Verificar respostas</button>
+      <button class="secondary" id="mcReset">Reiniciar</button>
+      <span class="score" id="mcScore"></span>
+    </div>
+  </section>
+
+  <div class="total" id="total">Pontuação total: <span id="totalScore">0</span> de 40</div>
+
+</main>
+
+<script>
+  // ---------- DATA ----------
+  const TIME = [
+    { s: "I have a meeting ___ Monday.", a: "on" },
+    { s: "The shop opens ___ 9 o'clock.", a: "at" },
+    { s: "We moved here ___ 2019.", a: "in" },
+    { s: "She has lived here ___ 2015.", a: "since" },
+    { s: "He studied English ___ three hours.", a: "for" },
+    { s: "Please finish the report ___ Friday.", a: "by" },
+    { s: "Let's meet ___ lunch.", a: "after" },
+    { s: "We are going on holiday ___ summer.", a: "in" },
+    { s: "The last train leaves ___ midnight.", a: "at" },
+    { s: "I fell asleep ___ the movie.", a: "during" }
+  ];
+  const TIME_DISTRACTORS = ["until", "ago", "within"];
+
+  const PLACE = [
+    { s: "She is ___ home.", a: "at" },
+    { s: "He lives ___ London.", a: "in" },
+    { s: "The keys are ___ the table.", a: "on" },
+    { s: "Wait for me ___ the bus stop.", a: "at" },
+    { s: "The cat is ___ the box.", a: "in" },
+    { s: "We live ___ the third floor.", a: "on" },
+    { s: "The bank is ___ the school.", a: "opposite" },
+    { s: "The ball is ___ the two chairs.", a: "between" },
+    { s: "The plane flew ___ the clouds.", a: "above" },
+    { s: "She was standing ___ the trees.", a: "among" }
+  ];
+  const PLACE_DISTRACTORS = ["under", "beside", "behind"];
+
+  const MOVE = [
+    { s: "She walked ___ the room.", a: "into" },
+    { s: "He ran ___ the building.", a: "out of" },
+    { s: "We swam ___ the river.", a: "across" },
+    { s: "Drive ___ the tunnel.", a: "through" },
+    { s: "Let's walk ___ the river.", a: "along" },
+    { s: "She ran ___ the park.", a: "around" },
+    { s: "He walked ___ the door.", a: "towards" },
+    { s: "Drive ___ the school.", a: "past" },
+    { s: "She walked ___ the stairs.", a: "up" },
+    { s: "He jumped ___ the stage.", a: "onto" }
+  ];
+  const MOVE_DISTRACTORS = ["down", "off", "from"];
+
+  const MC = [
+    { s: "I'll see you ___ Tuesday.", o: ["at", "on", "in"], c: 1 },
+    { s: "She has been waiting ___ two hours.", o: ["since", "for", "during"], c: 1 },
+    { s: "They are ___ the airport now.", o: ["in", "on", "at"], c: 2 },
+    { s: "My birthday is ___ June.", o: ["on", "at", "in"], c: 2 },
+    { s: "I haven't seen him ___ last year.", o: ["for", "since", "ago"], c: 1 },
+    { s: "The museum is ___ the bank and the library.", o: ["between", "among", "beside"], c: 0 },
+    { s: "He jumped ___ the swimming pool.", o: ["into", "onto", "across"], c: 0 },
+    { s: "Please submit your essay ___ 5 p.m. on Friday.", o: ["until", "by", "during"], c: 1 },
+    { s: "The children are playing ___ the trees.", o: ["among", "between", "through"], c: 0 },
+    { s: "We walked ___ the bridge to the other side.", o: ["along", "across", "around"], c: 1 }
+  ];
+
+  // ---------- UTIL ----------
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  let selectedChip = null;
+  let chipCounter = 0;
+
+  // ---------- DRAG AND DROP ----------
+  function setupDnD(section, items, distractors) {
+    const bank = section.querySelector(".bank");
+    const exercises = section.querySelector(".exercises");
+    const scoreEl = section.querySelector(".score");
+
+    exercises.innerHTML = "";
+    bank.innerHTML = "";
+
+    items.forEach((it, i) => {
+      const [before, after] = it.s.split("___");
+      const row = document.createElement("div");
+      row.className = "item";
+      row.innerHTML = `<span class="num">${i + 1}.</span><span>${before}</span>`;
+      const blank = document.createElement("span");
+      blank.className = "drop";
+      blank.dataset.answer = it.a;
+      row.appendChild(blank);
+      const tail = document.createElement("span");
+      tail.textContent = after;
+      row.appendChild(tail);
+      exercises.appendChild(row);
+
+      blank.addEventListener("dragover", e => { e.preventDefault(); blank.classList.add("over"); });
+      blank.addEventListener("dragleave", () => blank.classList.remove("over"));
+      blank.addEventListener("drop", e => {
+        e.preventDefault();
+        blank.classList.remove("over");
+        const id = e.dataTransfer.getData("text/plain");
+        const chip = document.getElementById(id);
+        if (chip) placeChip(blank, chip, bank);
+      });
+      blank.addEventListener("click", () => {
+        if (selectedChip && !blank.contains(selectedChip)) {
+          placeChip(blank, selectedChip, bank);
+          selectedChip.classList.remove("selected");
+          selectedChip = null;
+        }
+      });
+    });
+
+    bank.addEventListener("dragover", e => e.preventDefault());
+    bank.addEventListener("drop", e => {
+      e.preventDefault();
+      const chip = document.getElementById(e.dataTransfer.getData("text/plain"));
+      if (chip) bank.appendChild(chip);
+    });
+    bank.addEventListener("click", () => {
+      if (selectedChip && selectedChip.parentElement !== bank) {
+        bank.appendChild(selectedChip);
+        selectedChip.classList.remove("selected");
+        selectedChip = null;
+      }
+    });
+
+    const words = shuffle([...items.map(i => i.a), ...distractors]);
+    words.forEach(w => bank.appendChild(makeChip(w, bank)));
+    scoreEl.textContent = "";
+  }
+
+  function makeChip(word, bank) {
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = word;
+    chip.draggable = true;
+    chip.id = "chip-" + (chipCounter++);
+    chip.dataset.value = word;
+
+    chip.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text/plain", chip.id);
+      chip.classList.remove("correct", "wrong");
+    });
+    chip.addEventListener("click", e => {
+      e.stopPropagation();
+      if (chip.parentElement.classList.contains("drop")) {
+        // return chip to bank when tapped inside a blank
+        const b = chip.closest(".bank") || chip.parentElement.closest("section").querySelector(".bank");
+        chip.classList.remove("correct", "wrong");
+        b.appendChild(chip);
+        if (selectedChip === chip) selectedChip = null;
+        return;
+      }
+      if (selectedChip === chip) {
+        chip.classList.remove("selected");
+        selectedChip = null;
+      } else {
+        if (selectedChip) selectedChip.classList.remove("selected");
+        selectedChip = chip;
+        chip.classList.add("selected");
+      }
+    });
+    return chip;
+  }
+
+  function placeChip(blank, chip, bank) {
+    const existing = blank.querySelector(".chip");
+    if (existing) bank.appendChild(existing);
+    chip.classList.remove("correct", "wrong");
+    blank.classList.remove("ok", "bad");
+    blank.appendChild(chip);
+  }
+
+  function checkDnD(section) {
+    const drops = section.querySelectorAll(".drop");
+    let correct = 0;
+    drops.forEach(d => {
+      const chip = d.querySelector(".chip");
+      d.classList.remove("ok", "bad");
+      if (chip) chip.classList.remove("correct", "wrong");
+      const ok = chip && chip.dataset.value === d.dataset.answer;
+      if (ok) correct++;
+      if (chip) chip.classList.add(ok ? "correct" : "wrong");
+      d.classList.add(ok ? "ok" : "bad");
+    });
+    section.querySelector(".score").textContent = `Acertos: ${correct} / ${drops.length}`;
+    section.dataset.score = correct;
+    updateTotal();
+  }
+
+  function resetDnD(section) {
+    const bank = section.querySelector(".bank");
+    section.querySelectorAll(".drop .chip").forEach(c => {
+      c.classList.remove("correct", "wrong", "selected");
+      bank.appendChild(c);
+    });
+    section.querySelectorAll(".drop").forEach(d => d.classList.remove("ok", "bad"));
+    section.querySelector(".score").textContent = "";
+    section.dataset.score = 0;
+    selectedChip = null;
+    updateTotal();
+  }
+
+  // ---------- MULTIPLE CHOICE ----------
+  const mcList = document.getElementById("mcList");
+  let mcAnswers = {};
+
+  function renderMC() {
+    mcList.innerHTML = "";
+    mcAnswers = {};
+    MC.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "q";
+      div.innerHTML = `<p><strong>${i + 1}.</strong> ${q.s.replace("___", "_____")}</p>`;
+      const opts = document.createElement("div");
+      opts.className = "opts";
+      q.o.forEach((o, j) => {
+        const b = document.createElement("button");
+        b.className = "opt";
+        b.textContent = o;
+        b.onclick = () => {
+          opts.querySelectorAll(".opt").forEach(x => x.classList.remove("picked"));
+          b.classList.add("picked");
+          mcAnswers[i] = j;
+        };
+        opts.appendChild(b);
+      });
+      div.appendChild(opts);
+      const fb = document.createElement("div");
+      fb.className = "feedback";
+      div.appendChild(fb);
+      mcList.appendChild(div);
+    });
+    document.getElementById("mcScore").textContent = "";
+    updateTotal();
+  }
+
+  document.getElementById("mcCheck").onclick = () => {
+    let correct = 0;
+    const qs = mcList.querySelectorAll(".q");
+    MC.forEach((q, i) => {
+      const block = qs[i];
+      const opts = block.querySelectorAll(".opt");
+      const fb = block.querySelector(".feedback");
+      opts.forEach((o, j) => {
+        o.classList.remove("correct", "wrong");
+        if (j === q.c) o.classList.add("correct");
+        else if (mcAnswers[i] === j) o.classList.add("wrong");
+      });
+      if (mcAnswers[i] === q.c) {
+        correct++;
+        fb.textContent = "Correto!";
+        fb.className = "feedback ok";
+      } else {
+        fb.textContent = mcAnswers[i] === undefined
+          ? "Nenhuma opção escolhida. Resposta: " + q.o[q.c]
+          : "Incorreto. Resposta: " + q.o[q.c];
+        fb.className = "feedback bad";
+      }
+    });
+    document.getElementById("mcScore").textContent = `Acertos: ${correct} / ${MC.length}`;
+    document.getElementById("mc").dataset.score = correct;
+    updateTotal();
+  };
+
+  document.getElementById("mcReset").onclick = renderMC;
+
+  // ---------- TOTAL ----------
+  function updateTotal() {
+    const total = ["time", "place", "move", "mc"].reduce((sum, id) => {
+      const el = document.getElementById(id);
+      return sum + (parseInt(el.dataset.score || 0, 10));
+    }, 0);
+    document.getElementById("totalScore").textContent = total;
+  }
+
+  // ---------- INIT ----------
+  const sections = {
+    time: { el: document.getElementById("time"), items: TIME, dist: TIME_DISTRACTORS },
+    place: { el: document.getElementById("place"), items: PLACE, dist: PLACE_DISTRACTORS },
+    move: { el: document.getElementById("move"), items: MOVE, dist: MOVE_DISTRACTORS }
+  };
+
+  Object.values(sections).forEach(({ el, items, dist }) => {
+    setupDnD(el, items, dist);
+    el.querySelector(".check").onclick = () => checkDnD(el);
+    el.querySelector(".reset").onclick = () => resetDnD(el);
+  });
+
+  document.addEventListener("click", e => {
+    if (!e.target.classList.contains("chip")) {
+      if (selectedChip && !e.target.closest(".drop") && !e.target.closest(".bank")) {
+        selectedChip.classList.remove("selected");
+        selectedChip = null;
+      }
+    }
+  });
+
+  renderMC();
+</script>
+</body>
+</html>
